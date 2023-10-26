@@ -1,0 +1,145 @@
+export const arrangeData = () =>{
+  
+    const regex = "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}"
+    const regexForDataDate = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+    const regexForDataTime = "[0-9]{2}:[0-9]{2}:[0-9]{2}"
+    
+    
+
+    let types = BPAdata.map(element => element.typeId)
+    let uTypes = [...new Set(BPAdata.map(element => element.typeId))]
+    let amount = BPAdata.map(element => element.typeCount)
+    let motType = BPAdata.map(element => element.mot)
+
+     let seaAmounts = BPAdata.map(element =>  element.mot === 'SI' || element.mot === 'SE'  ? element.typeCount : null ).filter(x => x != null)
+    let airamounts = BPAdata.map(element =>  element.mot === 'AI' ||  element.mot === 'AE'  ? element.typeCount : null ).filter(x => x != null)
+
+    let airTypes = BPAdata.map(element =>  element.mot === 'AI' || 'AE' ? element.typeId : null ).filter(x => x).join(', ')
+    let airamounts = BPAdata.map(element =>  element.mot === 'AI' || 'AE'  ? element.typeCount : null ).filter(x => x != null)
+    
+    let airDates = BPAdata.map(element =>  element.mot === 'AI' || 'AE' ? element.insertTime.match(regexForDataDate) : null ).map(el => el[0])
+  
+    let amountPerTypes = Object.assign( ...airDates.map((k,i) => ({[k]: airamounts[i]})) )
+
+    const ttt = [] // ezzel egy lepessel kozelebb vagyunk 
+    
+    uTypes.forEach(OType => {
+        return BPAdata.forEach(e => {e.typeId == OType ? ttt.push([e.typeId, e.insertTime.match(regexForDataDate)[0], e.typeCount]) : ttt.push("")  } )
+    } )
+
+    let dateDictionary = Object.assign( ...airDates.map((k,i) => ({[k]: ttt.filter(x => x).filter(e => e[1] == k).map(e => e[2]).reduce((count, num) => {return count + num } ) }) ))
+    
+    
+//    ttt.filter(x => x).forEach(e => airDates.forEach(d => {e[1] == d ? (dateDictionary[d].append(e[2])) : (dateDictionary[d] = dateDictionary[d]) } ) )
+
+
+
+    ttt.filter(x => x)
+
+    
+    const dateIndexes = airDates.reduce((count, value) => {return (count[value] ? ++count[value] : count[value] = 1, count ) }, {})
+    
+// 1111 : ttt : 125, fff : 152 
+
+    // let dayOverAmount = airDates.map(aDay => {return airamounts.reduce((acc, amo) => {amo === aDay && acc[aDay]++;  return acc }, {[aDay]: 0})})
+       
+    // go with each date: [type:amoutn]
+
+    // const amountPerTypes = Object.assign()
+
+    //date: {sea: number, air:number}
+
+    // [sea: [{date: num}, {date:num}], air :[{date: num}, {date:num}]]
+
+    const bpaIncChartdata = [{'sea': [], 'air': [] }]
+    // const 
+
+    // console.log(motType.filter((ite, inde) => {return motType.indexOf(ite)=== inde}))
+    console.log(ttt.filter(x => x))
+    console.log(dateDictionary)
+
+
+    // return uniqueDays
+
+    return dateDictionary
+
+
+    
+
+}
+
+// bpaIncidentGraph: 
+//     { datasets: [ 
+//         {
+//             label: "reprocessed task amount air",
+//             labels : [],
+//             data: []
+//         },
+//         {
+//             label: "reprocessed task amount sea",
+//             labels : [],
+//             data: []
+    
+//         }, ],
+//         labels:     []}
+    
+//     ,
+
+ const regexForDataDate = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+    const [bpaData, setUserData] = useState({
+      datasets: [
+        { 
+          label: "reprocessed task amount air",
+          labels: BPAdata.map((data) => data.typeId),       
+          data: BPAdata.map((data) => data.typeCount)
+        },
+        {
+          label: "reprocessed task amount sea",
+          labels: BPAdata.map((data) => data.typeId),       
+          data: BPAdata.map((data) => data.typeCount)
+        },
+      ],
+      labels: BPAdata.map((data) => data.insertTime.match(regexForDataDate))
+    });
+
+
+    {/* <div className='h-16 z-0' >
+    <Navbar />
+    </div> 
+    <div className='grid grid-rows-2 gap-2 h-screen z-0'>   
+      <div   className='grid grid-cols-5 gap-2 z-0 '>   
+        <div className='col-span-2 bg-emerald-50 py-2  z-0 px-2 justify-between'>  
+          <InputPanel panNum={1} />
+        </div>
+        <div className='grid col-span-3 bg-amber-50 py-2 px-2 z-0' >   
+        <div className='grid w-full h-96 z-0'   >
+          <StackedBar />
+        </div>   
+        </div>
+        
+      </div>         
+      <div className='grid grid-cols-5 gap-2 z-0' >   
+        <div className='col-span-3  bg-cyan-50 py-2 px-2 z-0' >      
+        </div>
+        <div className='col-span-2 bg-teal-50 py-2 px-2 z-0'>  
+        <InputPanel/>
+        </div>
+      </div>
+
+    </div> */}
+
+
+    
+        // if(progressStat === -1 ){
+        //     progressStatus = "ERR"
+        // } else if (progressStatus === 0) {
+        //     progressStatus = ""
+
+        // } else if (progressStatus === 0){
+
+
+        // }
+        // useEffect(() => {
+        //     dispatch({type : 'SET_PROGRESS_STATUS', payload :  getTheProgressStatus() })
+        // }
+        // )
