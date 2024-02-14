@@ -10,8 +10,8 @@ export const AppConProvider = ({children}) => {
     username: "",
     areCredsSet: -1,
     password: "",
-    bpaIncidentExists: "",
-    bpaIncidentGraph:  
+    incidentExists: "",
+    incidentGraph:  
     {"datasets": [
       { 
         "label": "reprocessed tasks / air",
